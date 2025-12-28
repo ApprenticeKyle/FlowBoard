@@ -1,39 +1,48 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { Plus, MoreHorizontal } from 'lucide-react';
 import BoardCard from '../components/BoardCard';
-
-const columns = [
-    {
-        id: 'todo',
-        title: 'To Do',
-        tasks: [
-            { id: 1, title: 'Database Schema Design', description: 'Design the core entities for the TaskFlow project including Auth, Task and Project.', priority: 'High', comments: 12, attachments: 3, assignees: ['Alex', 'Jordan'] },
-            { id: 4, title: 'API Documentation', description: 'Update Swagger docs for the new DDD endpoints.', priority: 'Medium', comments: 2, attachments: 1, assignees: ['Alex'] },
-        ]
-    },
-    {
-        id: 'in-progress',
-        title: 'In Progress',
-        tasks: [
-            { id: 2, title: 'MapStruct Integration', description: 'Replace manual mappers with automated MapStruct interfaces in all modules.', priority: 'Medium', comments: 8, attachments: 5, assignees: ['Kyle', 'Sarah'] },
-        ]
-    },
-    {
-        id: 'review',
-        title: 'Review',
-        tasks: [
-            { id: 3, title: 'Frontend Shell', description: 'Create the main layout, sidebar and topbar for FlowBoard.', priority: 'Medium', comments: 5, attachments: 2, assignees: ['Kyle'] },
-        ]
-    },
-    { id: 'done', title: 'Done', tasks: [] },
-];
+import { api } from '../utils/api';
 
 export default function KanbanBoard() {
+    const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProjectDetails = async () => {
+            try {
+                // Assuming project ID 1 for now
+                const data = await api.get('/projects/1/details');
+                setProject(data);
+            } catch (error) {
+                console.error('Failed to fetch project details:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProjectDetails();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-white text-xl font-bold animate-pulse">Loading Board...</div>
+            </div>
+        );
+    }
+
+    const tasks = project?.tasks || [];
+    const columns = [
+        { id: 'todo', title: 'To Do', tasks: tasks.filter(t => t.status === 'TODO') },
+        { id: 'in-progress', title: 'In Progress', tasks: tasks.filter(t => t.status === 'IN_PROGRESS') },
+        { id: 'review', title: 'Review', tasks: tasks.filter(t => t.status === 'REVIEW') },
+        { id: 'done', title: 'Done', tasks: tasks.filter(t => t.status === 'DONE') },
+    ];
+
     return (
         <div className="h-full flex flex-col space-y-8 font-inter">
             <header className="flex items-center justify-between max-w-[1600px] w-full">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Project Board</h1>
+                    <h1 className="text-3xl font-bold text-white mb-2">{project?.name || 'Project Board'}</h1>
                     <p className="text-slate-400 font-medium">TaskFlow / Sprint 1</p>
                 </div>
 

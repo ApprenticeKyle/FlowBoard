@@ -1,14 +1,42 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, CheckCircle2, AlertCircle, BarChart3, TrendingUp, Users } from 'lucide-react';
-
-const stats = [
-    { label: 'Active Tasks', value: '12', icon: Clock, color: 'text-primary-400', bg: 'bg-primary-500/10' },
-    { label: 'Completed', value: '48', icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-    { label: 'High Priority', value: '3', icon: AlertCircle, color: 'text-rose-400', bg: 'bg-rose-500/10' },
-    { label: 'Team Velocity', value: '94%', icon: TrendingUp, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-];
+import { api } from '../utils/api';
 
 export default function Dashboard() {
+    const [projectStats, setProjectStats] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                // Assuming project ID 1 for demonstration
+                const data = await api.get('/projects/1/stats');
+                setProjectStats(data);
+            } catch (error) {
+                console.error('Failed to fetch stats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
+
+    const stats = [
+        { label: 'Active Tasks', value: projectStats?.activeTasks ?? '0', icon: Clock, color: 'text-primary-400', bg: 'bg-primary-500/10' },
+        { label: 'Completed', value: projectStats?.completedTasks ?? '0', icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+        { label: 'High Priority', value: projectStats?.highPriorityTasks ?? '0', icon: AlertCircle, color: 'text-rose-400', bg: 'bg-rose-500/10' },
+        { label: 'Team Velocity', value: projectStats?.teamVelocity ?? '0%', icon: TrendingUp, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    ];
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-white text-xl font-bold animate-pulse">Loading Dashboard...</div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-10 max-w-7xl mx-auto">
             <header>
