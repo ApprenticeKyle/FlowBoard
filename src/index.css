@@ -3,7 +3,10 @@
 @theme {
     --font-inter: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
     --color-slate-950: #0b0f1a;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
     --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
 }
 
 :root {
@@ -29,14 +32,14 @@ body {
 }
 
 /* Glassmorphism utility */
-.glass {
+@utility glass {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.glass-card {
+@utility glass-card {
     background: rgba(30, 41, 59, 0.7);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -60,4 +63,128 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
+}
+
+@utility nav-aside {
+    @apply fixed left-0 top-0 h-screen w-64 glass border-r border-white/5 flex flex-col z-50;
+}
+
+@utility nav-item {
+    @apply w-full flex items-center gap-4 px-4 py-3 text-slate-400 rounded-xl transition-all duration-200;
+
+    &:hover {
+        @apply text-white bg-white/5;
+    }
+}
+
+@utility topbar-header {
+    @apply h-20 glass border-b border-white/5 flex items-center justify-between px-10 sticky top-0 z-40;
+}
+
+@utility input-search {
+    @apply w-full bg-white/5 border border-white/5 rounded-2xl py-2.5 pl-12 pr-4 text-sm text-slate-200 transition-all;
+
+    &:focus {
+        @apply outline-none ring-2 ring-primary-500/20 border-primary-500/30;
+    }
+}
+
+@utility btn-primary {
+    @apply bg-primary-500 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm font-semibold shadow-lg shadow-primary-500/20 transition-all;
+
+    &:hover {
+        @apply bg-primary-600 -translate-y-0.5;
+    }
+
+    &:active {
+        @apply translate-y-0;
+    }
+}
+
+@utility icon-btn {
+    @apply p-2 text-slate-400 transition-colors relative;
+
+    &:hover {
+        @apply text-white;
+    }
+}
+
+@utility badge-priority {
+    @apply px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider;
+}
+
+@utility card-title {
+    @apply text-white font-semibold text-sm leading-snug mb-2 transition-colors;
+
+    .group:hover & {
+        @apply text-primary-300;
+    }
+}
+
+@utility card-desc {
+    @apply text-slate-500 text-xs line-clamp-2 mb-4 leading-relaxed font-medium;
+}
+
+@utility card-stat {
+    @apply flex items-center gap-1.5 text-slate-500;
+}
+
+@utility board-column {
+    @apply w-80 flex flex-col min-h-full;
+}
+
+@utility column-body {
+    @apply flex-1 space-y-4 bg-white/[0.02] border border-white/5 rounded-3xl p-4 min-h-[500px];
+}
+
+@utility btn-add-task {
+    @apply w-full py-4 rounded-2xl border-2 border-dashed border-white/5 text-slate-500 transition-all text-xs font-bold flex items-center justify-center gap-2;
+
+    &:hover {
+        @apply text-primary-400 border-primary-500/30 bg-primary-500/5;
+    }
+}
+
+@utility layout-root {
+    @apply flex bg-[#0b0f1a] min-h-screen w-full selection:bg-primary-500/30;
+}
+
+@utility layout-content {
+    @apply flex-1 ml-64 flex flex-col min-w-0;
+}
+
+@utility layout-main {
+    @apply flex-1 p-10 overflow-y-auto;
+}
+
+@utility nav-simulator {
+    @apply fixed bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 glass px-6 py-4 rounded-3xl z-[100] border border-white/10 shadow-2xl;
+}
+
+@utility simulator-btn {
+    @apply px-4 py-2 rounded-xl text-xs font-bold transition-all;
+}
+
+@utility simulator-btn-active {
+    @apply bg-primary-500 text-white shadow-lg shadow-primary-500/20;
+}
+
+@utility simulator-btn-inactive {
+    @apply text-slate-400;
+
+    &:hover {
+        @apply text-white;
+    }
+}
+
+@utility dashboard-header-title {
+    @apply text-3xl font-bold text-white mb-2;
+}
+
+@utility dashboard-header-desc {
+    @apply text-slate-400 font-medium;
+}
+
+@utility stats-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
 }

@@ -22,16 +22,16 @@ function App() {
       {renderPage()}
 
       {/* Simulation for switching pages since we don't have a router yet */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 glass px-6 py-4 rounded-3xl z-[100] border border-white/10 shadow-2xl">
+      <div className="nav-simulator">
         <button
           onClick={() => setActivePage('dashboard')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activePage === 'dashboard' ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/20' : 'text-slate-400 hover:text-white'}`}
+          className={`simulator-btn ${activePage === 'dashboard' ? 'simulator-btn-active' : 'simulator-btn-inactive'}`}
         >
           View Dashboard
         </button>
         <button
           onClick={() => setActivePage('board')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activePage === 'board' ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/20' : 'text-slate-400 hover:text-white'}`}
+          className={`simulator-btn ${activePage === 'board' ? 'simulator-btn-active' : 'simulator-btn-inactive'}`}
         >
           View Kanban Board
         </button>

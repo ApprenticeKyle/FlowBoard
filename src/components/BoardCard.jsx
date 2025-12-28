@@ -14,10 +14,10 @@ export default function BoardCard({ task }) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            className="glass-card p-5 rounded-2xl cursor-grab active:cursor-grabbing group border border-white/5 hover:border-primary-500/30 transition-all font-inter"
+            className="glass-card p-5 rounded-2xl cursor-grab active:cursor-grabbing group border border-white/5 hover:border-primary-500/30 transition-all"
         >
             <div className="flex items-start justify-between mb-4">
-                <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${priorityColors[task.priority]}`}>
+                <span className={`badge-priority ${priorityColors[task.priority]}`}>
                     {task.priority}
                 </span>
                 <button className="text-slate-500 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors">
@@ -25,20 +25,20 @@ export default function BoardCard({ task }) {
                 </button>
             </div>
 
-            <h4 className="text-white font-semibold text-sm leading-snug mb-2 group-hover:text-primary-300 transition-colors">
+            <h4 className="card-title">
                 {task.title}
             </h4>
-            <p className="text-slate-500 text-xs line-clamp-2 mb-4 leading-relaxed font-medium">
+            <p className="card-desc">
                 {task.description}
             </p>
 
             <div className="flex items-center justify-between pt-4 border-t border-white/5">
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5 text-slate-500">
+                    <div className="card-stat">
                         <MessageSquare className="w-3.5 h-3.5" />
                         <span className="text-[10px] font-bold">{task.comments}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-slate-500">
+                    <div className="card-stat">
                         <Paperclip className="w-3.5 h-3.5" />
                         <span className="text-[10px] font-bold">{task.attachments}</span>
                     </div>

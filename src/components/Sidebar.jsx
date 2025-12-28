@@ -11,7 +11,7 @@ const menuItems = [
 
 export default function Sidebar() {
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 glass border-r border-white/5 flex flex-col z-50">
+        <aside className="nav-aside">
             <div className="p-8 pb-12 flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20">
                     <Kanban className="text-white w-6 h-6" />
@@ -24,7 +24,7 @@ export default function Sidebar() {
                     <motion.button
                         key={item.id}
                         whileHover={{ x: 4 }}
-                        className="w-full flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-200 group"
+                        className="nav-item"
                     >
                         <item.icon className="w-5 h-5 group-hover:text-primary-400" />
                         <span className="font-medium">{item.label}</span>
@@ -33,7 +33,7 @@ export default function Sidebar() {
             </nav>
 
             <div className="p-6 border-t border-white/5 space-y-2">
-                <button className="w-full flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-200 group">
+                <button className="nav-item">
                     <Settings className="w-5 h-5 group-hover:rotate-45 transition-transform" />
                     <span className="font-medium">Settings</span>
                 </button>

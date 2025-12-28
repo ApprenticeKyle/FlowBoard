@@ -12,11 +12,11 @@ export default function Dashboard() {
     return (
         <div className="space-y-10 max-w-7xl mx-auto">
             <header>
-                <h1 className="text-3xl font-bold text-white mb-2">Welcome back, Kyle!</h1>
-                <p className="text-slate-400 font-medium">Here's what's happening in your projects today.</p>
+                <h1 className="dashboard-header-title">Welcome back, Kyle!</h1>
+                <p className="dashboard-header-desc">Here's what's happening in your projects today.</p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="stats-grid">
                 {stats.map((stat, i) => (
                     <motion.div
                         key={stat.label}
