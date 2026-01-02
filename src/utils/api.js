@@ -96,6 +96,15 @@ export const api = {
             method: 'POST',
             body: JSON.stringify(data)
         });
+    },
+    put: async (url, data) => {
+        // PUT请求，确保已登录
+        await loginOnce();
+        
+        return request(url, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
     }
 };
 

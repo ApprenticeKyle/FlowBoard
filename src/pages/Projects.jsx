@@ -69,8 +69,8 @@ export default function Projects() {
 
     const handleUpdateProject = async (projectData) => {
         try {
-            // 调用后端API更新项目，不再传递owner_id字段
-            const updatedProject = await api.post(`/projects/${projectData.id}`, projectData);
+            // 调用后端API更新项目，不再传递owner_id字段，使用PUT方法
+            const updatedProject = await api.put(`/projects/${projectData.id}`, projectData);
             // 转换后端返回的数据格式
             const formattedProject = {
                 ...updatedProject.data,

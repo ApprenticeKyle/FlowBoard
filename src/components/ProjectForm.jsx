@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@headlessui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { api } from '../utils/api';
 
 const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
     const { t } = useTranslation();
@@ -23,6 +24,38 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
         ...safeInitialData
     });
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    // 当表单处于编辑模式且打开时，获取最新的项目数据
+    useEffect(() => {
+        if (isOpen && safeInitialData.id) {
+            const fetchProjectData = async () => {
+                setLoading(true);
+                try {
+                    // 调用API获取最新的项目数据
+                    const projectData = await api.get(`/projects/${safeInitialData.id}`);
+                    // 确保projectData是一个对象
+                    const safeProjectData = projectData || {};
+                    // 将deadline转换为Date对象
+                    const deadlineDate = safeProjectData.deadline 
+                        ? new Date(safeProjectData.deadline)
+                        : new Date();
+                    // 更新表单数据
+                    setFormData({
+                        ...safeProjectData,
+                        deadline: deadlineDate
+                    });
+                } catch (error) {
+                    console.error('Failed to fetch project data:', error);
+                    // 如果获取失败，继续使用initialData
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchProjectData();
+        }
+    }, [isOpen, safeInitialData.id]);
 
     const validateForm = () => {
         const newErrors = {};
