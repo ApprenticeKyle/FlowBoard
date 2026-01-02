@@ -2,6 +2,17 @@ import { motion } from 'framer-motion';
 import { MoreHorizontal, Paperclip, MessageSquare } from 'lucide-react';
 
 export default function BoardCard({ task }) {
+    // 添加默认值，确保所有属性都有值
+    const safeTask = {
+        priority: task.priority || 'Medium',
+        title: task.title || 'Untitled Task',
+        description: task.description || '',
+        comments: task.comments || 0,
+        attachments: task.attachments || 0,
+        assignees: task.assignees || [],
+        ...task
+    };
+
     const priorityColors = {
         High: 'bg-rose-500/10 text-rose-400',
         Medium: 'bg-amber-500/10 text-amber-400',
@@ -17,8 +28,8 @@ export default function BoardCard({ task }) {
             className="glass-card p-5 rounded-2xl cursor-grab active:cursor-grabbing group border border-white/5 hover:border-primary-500/30 transition-all"
         >
             <div className="flex items-start justify-between mb-4">
-                <span className={`badge-priority ${priorityColors[task.priority]}`}>
-                    {task.priority}
+                <span className={`badge-priority ${priorityColors[safeTask.priority]}`}>
+                    {safeTask.priority}
                 </span>
                 <button className="text-slate-500 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors">
                     <MoreHorizontal className="w-4 h-4" />
@@ -26,26 +37,26 @@ export default function BoardCard({ task }) {
             </div>
 
             <h4 className="card-title">
-                {task.title}
+                {safeTask.title}
             </h4>
             <p className="card-desc">
-                {task.description}
+                {safeTask.description}
             </p>
 
             <div className="flex items-center justify-between pt-4 border-t border-white/5">
                 <div className="flex items-center gap-3">
                     <div className="card-stat">
                         <MessageSquare className="w-3.5 h-3.5" />
-                        <span className="text-[10px] font-bold">{task.comments}</span>
+                        <span className="text-[10px] font-bold">{safeTask.comments}</span>
                     </div>
                     <div className="card-stat">
                         <Paperclip className="w-3.5 h-3.5" />
-                        <span className="text-[10px] font-bold">{task.attachments}</span>
+                        <span className="text-[10px] font-bold">{safeTask.attachments}</span>
                     </div>
                 </div>
 
                 <div className="flex -space-x-2">
-                    {task.assignees.map((a, i) => (
+                    {safeTask.assignees.map((a, i) => (
                         <div key={i} className="w-6 h-6 rounded-lg border-2 border-slate-900 overflow-hidden bg-slate-800 shadow-sm">
                             <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${a}`} alt="member" className="w-full h-full object-cover" />
                         </div>

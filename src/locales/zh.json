@@ -1,0 +1,107 @@
+{
+  "dashboard": {
+    "welcome": "欢迎回来，Kyle！",
+    "subtitle": "这是您今天的项目动态。",
+    "stats": {
+      "activeTasks": "活跃任务",
+      "completed": "已完成",
+      "highPriority": "高优先级",
+      "teamVelocity": "团队速度",
+      "projects": "项目",
+      "teamMembers": "团队成员"
+    },
+    "projectActivity": "项目活动",
+    "upcomingDeadlines": "即将到来的截止日期",
+    "recentTasks": "最近任务",
+    "teamActivity": "团队活动",
+    "viewAll": "查看全部"
+  },
+  "projects": {
+    "title": "项目",
+    "subtitle": "管理和查看所有团队项目",
+    "newProject": "新建项目",
+    "search": "搜索项目...",
+    "table": {
+      "project": "项目",
+      "members": "成员",
+      "status": "状态",
+      "deadline": "截止日期",
+      "progress": "进度",
+      "actions": "操作"
+    },
+    "status": {
+      "active": "活跃",
+      "planning": "规划中",
+      "completed": "已完成"
+    },
+    "allProjects": "所有项目"
+  },
+  "board": {
+    "title": "项目看板",
+    "sprint": "冲刺 1",
+    "addTask": "添加任务",
+    "addColumn": "添加列",
+    "columns": {
+      "todo": "待办",
+      "inProgress": "进行中",
+      "review": "审核",
+      "done": "已完成"
+    }
+  },
+  "chat": {
+    "title": "聊天",
+    "searchChannels": "搜索频道...",
+    "newChannel": "新建频道",
+    "channels": "频道",
+    "directMessages": "私信",
+    "typeMessage": "输入消息...",
+    "comment": "评论"
+  },
+  "team": {
+    "title": "团队成员",
+    "subtitle": "管理和查看团队成员",
+    "inviteMember": "邀请成员",
+    "searchMembers": "搜索团队成员...",
+    "allMembers": "所有成员",
+    "online": "在线",
+    "away": "离开",
+    "offline": "离线"
+  },
+  "taskDetail": {
+    "title": "任务详情",
+    "back": "返回",
+    "comments": "评论",
+    "activityLog": "活动日志",
+    "taskInformation": "任务信息",
+    "assignees": "负责人",
+    "dueDate": "截止日期",
+    "tags": "标签",
+    "attachments": "附件",
+    "addTag": "添加标签",
+    "addAttachment": "添加附件",
+    "addComment": "添加评论..."
+  },
+  "common": {
+    "dashboard": "仪表盘",
+    "projects": "项目",
+    "board": "看板",
+    "tasks": "任务",
+    "chat": "聊天",
+    "team": "团队",
+    "settings": "设置",
+    "signOut": "退出登录",
+    "search": "搜索任务、文档或人员...",
+    "newTask": "新建任务",
+    "priority": {
+      "high": "高",
+      "medium": "中",
+      "low": "低"
+    },
+    "status": {
+      "todo": "待办",
+      "inProgress": "进行中",
+      "review": "审核",
+      "done": "已完成"
+    }
+  }
+}

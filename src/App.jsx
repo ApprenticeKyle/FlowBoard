@@ -1,42 +1,36 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Dashboard from './pages/Dashboard';
 import KanbanBoard from './pages/KanbanBoard';
+import Projects from './pages/Projects';
+import Team from './pages/Team';
+import Chat from './pages/Chat';
+import TaskDetail from './pages/TaskDetail';
 
-function App() {
-  const [activePage, setActivePage] = useState('dashboard');
-
-  const renderPage = () => {
-    switch (activePage) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'board':
-        return <KanbanBoard />;
-      default:
-        return <Dashboard />;
-    }
-  };
-
+// 包装Sidebar以支持路由
+function LayoutWrapper({ children }) {
   return (
     <MainLayout>
-      {renderPage()}
-
-      {/* Simulation for switching pages since we don't have a router yet */}
-      <div className="nav-simulator">
-        <button
-          onClick={() => setActivePage('dashboard')}
-          className={`simulator-btn ${activePage === 'dashboard' ? 'simulator-btn-active' : 'simulator-btn-inactive'}`}
-        >
-          View Dashboard
-        </button>
-        <button
-          onClick={() => setActivePage('board')}
-          className={`simulator-btn ${activePage === 'board' ? 'simulator-btn-active' : 'simulator-btn-inactive'}`}
-        >
-          View Kanban Board
-        </button>
-      </div>
+      {children}
     </MainLayout>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LayoutWrapper />}>
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="board" element={<KanbanBoard />} />
+          <Route path="chat" element={<Chat />} />
+          <Route path="team" element={<Team />} />
+          <Route path="tasks/:id" element={<TaskDetail />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

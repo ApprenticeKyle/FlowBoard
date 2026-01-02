@@ -1,0 +1,107 @@
+{
+  "dashboard": {
+    "welcome": "Welcome back, Kyle!",
+    "subtitle": "Here's what's happening in your projects today.",
+    "stats": {
+      "activeTasks": "Active Tasks",
+      "completed": "Completed",
+      "highPriority": "High Priority",
+      "teamVelocity": "Team Velocity",
+      "projects": "Projects",
+      "teamMembers": "Team Members"
+    },
+    "projectActivity": "Project Activity",
+    "upcomingDeadlines": "Upcoming Deadlines",
+    "recentTasks": "Recent Tasks",
+    "teamActivity": "Team Activity",
+    "viewAll": "View All"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Manage and view all team projects",
+    "newProject": "New Project",
+    "search": "Search projects...",
+    "table": {
+      "project": "Project",
+      "members": "Members",
+      "status": "Status",
+      "deadline": "Deadline",
+      "progress": "Progress",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "planning": "Planning",
+      "completed": "Completed"
+    },
+    "allProjects": "All Projects"
+  },
+  "board": {
+    "title": "Project Board",
+    "sprint": "Sprint 1",
+    "addTask": "Add Task",
+    "addColumn": "Add Column",
+    "columns": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "review": "Review",
+      "done": "Done"
+    }
+  },
+  "chat": {
+    "title": "Chat",
+    "searchChannels": "Search channels...",
+    "newChannel": "New Channel",
+    "channels": "Channels",
+    "directMessages": "Direct Messages",
+    "typeMessage": "Type a message...",
+    "comment": "Comment"
+  },
+  "team": {
+    "title": "Team Members",
+    "subtitle": "Manage and view team members",
+    "inviteMember": "Invite Member",
+    "searchMembers": "Search team members...",
+    "allMembers": "All Members",
+    "online": "Online",
+    "away": "Away",
+    "offline": "Offline"
+  },
+  "taskDetail": {
+    "title": "Task Detail",
+    "back": "Back",
+    "comments": "Comments",
+    "activityLog": "Activity Log",
+    "taskInformation": "Task Information",
+    "assignees": "Assignees",
+    "dueDate": "Due Date",
+    "tags": "Tags",
+    "attachments": "Attachments",
+    "addTag": "Add Tag",
+    "addAttachment": "Add Attachment",
+    "addComment": "Add a comment..."
+  },
+  "common": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "board": "Board",
+    "tasks": "Tasks",
+    "chat": "Chat",
+    "team": "Team",
+    "settings": "Settings",
+    "signOut": "Sign Out",
+    "search": "Search tasks, docs, or people...",
+    "newTask": "New Task",
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "status": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "review": "Review",
+      "done": "Done"
+    }
+  }
+}
