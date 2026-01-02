@@ -34,7 +34,31 @@
       "planning": "Planning",
       "completed": "Completed"
     },
-    "allProjects": "All Projects"
+    "allProjects": "All Projects",
+    "noProjects": {
+      "title": "No projects found",
+      "subtitle": "Looks like there are no projects matching your filter criteria."
+    },
+    "form": {
+      "createTitle": "Create New Project",
+      "editTitle": "Edit Project",
+      "name": "Project Name",
+      "namePlaceholder": "Enter project name",
+      "description": "Project Description",
+      "descriptionPlaceholder": "Enter project description",
+      "status": "Status",
+      "deadline": "Deadline",
+      "deadlinePlaceholder": "Select date",
+      "create": "Create Project",
+      "update": "Update Project",
+      "cancel": "Cancel",
+      "clearDate": "Clear",
+      "errors": {
+        "name": "Project name is required",
+        "description": "Project description is required",
+        "deadline": "Deadline is required"
+      }
+    }
   },
   "board": {
     "title": "Project Board",

@@ -34,7 +34,31 @@
       "planning": "规划中",
       "completed": "已完成"
     },
-    "allProjects": "所有项目"
+    "allProjects": "所有项目",
+    "noProjects": {
+      "title": "没有找到项目",
+      "subtitle": "看起来没有匹配筛选条件的项目。"
+    },
+    "form": {
+      "createTitle": "创建新项目",
+      "editTitle": "编辑项目",
+      "name": "项目名称",
+      "namePlaceholder": "输入项目名称",
+      "description": "项目描述",
+      "descriptionPlaceholder": "输入项目描述",
+      "status": "状态",
+      "deadline": "截止日期",
+      "deadlinePlaceholder": "选择日期",
+      "create": "创建项目",
+      "update": "更新项目",
+      "cancel": "取消",
+      "clearDate": "清除",
+      "errors": {
+        "name": "项目名称不能为空",
+        "description": "项目描述不能为空",
+        "deadline": "截止日期不能为空"
+      }
+    }
   },
   "board": {
     "title": "项目看板",
