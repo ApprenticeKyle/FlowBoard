@@ -1,18 +1,45 @@
+import { useState, useRef, useEffect } from 'react';
 import { Search, Bell, Plus, HelpCircle, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function Topbar() {
     const { t, i18n } = useTranslation();
+    const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+    const languageMenuRef = useRef(null);
+    const buttonRef = useRef(null);
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
+        setIsLanguageMenuOpen(false);
     };
+
+    // 点击外部关闭菜单
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                languageMenuRef.current &&
+                buttonRef.current &&
+                !languageMenuRef.current.contains(event.target) &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setIsLanguageMenuOpen(false);
+            }
+        };
+
+        if (isLanguageMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isLanguageMenuOpen]);
 
     return (
         <header className="topbar-header">
-            <div className="max-w-[1600px] w-full mx-auto flex items-center justify-between px-10">
-                <div className="relative group max-w-xl">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4 group-focus-within:text-primary-400 transition-colors" />
+            <div className="w-full flex items-center justify-between px-10">
+                <div className="relative group flex-1 max-w-xl">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4 group-focus-within:text-primary-400 transition-colors pointer-events-none" />
                     <input
                         type="text"
                         placeholder={t('common.search')}
@@ -24,30 +51,42 @@ export default function Topbar() {
                     <button className="icon-btn">
                         <HelpCircle className="w-5 h-5" />
                     </button>
-                    <button className="icon-btn">
+                    <button className="icon-btn relative">
                         <Bell className="w-5 h-5" />
                         <span className="absolute top-2 right-2 w-2 h-2 bg-primary-500 rounded-full border-2 border-slate-900"></span>
                     </button>
 
                     {/* 语言切换按钮 */}
-                    <div className="relative group">
-                        <button className="icon-btn">
+                    <div className="relative">
+                        <button 
+                            ref={buttonRef}
+                            className={`icon-btn ${isLanguageMenuOpen ? 'text-primary-400' : ''}`}
+                            onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
+                        >
                             <Globe className="w-5 h-5" />
                         </button>
-                        <div className="absolute right-0 top-full mt-2 w-28 bg-slate-900 rounded-xl shadow-2xl border border-white/10 hidden group-hover:block z-50">
-                            <button 
-                                className={`w-full text-left px-4 py-2 text-sm transition-colors ${i18n.language === 'zh' ? 'text-primary-400 bg-primary-500/10' : 'text-slate-300 hover:text-white'}`}
-                                onClick={() => changeLanguage('zh')}
+                        {isLanguageMenuOpen && (
+                            <div 
+                                ref={languageMenuRef}
+                                className="absolute right-0 top-full mt-2 w-28 bg-slate-900 rounded-xl shadow-2xl border border-white/10 z-50 overflow-hidden"
+                                style={{
+                                    animation: 'fadeInDown 0.2s ease-out'
+                                }}
                             >
-                                中文
-                            </button>
-                            <button 
-                                className={`w-full text-left px-4 py-2 text-sm transition-colors ${i18n.language === 'en' ? 'text-primary-400 bg-primary-500/10' : 'text-slate-300 hover:text-white'}`}
-                                onClick={() => changeLanguage('en')}
-                            >
-                                English
-                            </button>
-                        </div>
+                                <button 
+                                    className={`w-full text-left px-4 py-2 text-sm transition-colors ${i18n.language === 'zh' ? 'text-primary-400 bg-primary-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'}`}
+                                    onClick={() => changeLanguage('zh')}
+                                >
+                                    中文
+                                </button>
+                                <button 
+                                    className={`w-full text-left px-4 py-2 text-sm transition-colors ${i18n.language === 'en' ? 'text-primary-400 bg-primary-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'}`}
+                                    onClick={() => changeLanguage('en')}
+                                >
+                                    English
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     <div className="w-px h-8 bg-white/5 mx-2" />

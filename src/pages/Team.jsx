@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Search, MoreHorizontal, Edit, Trash2, Mail, Phone, UserPlus, UserMinus } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { PageContainer } from '@shared/components';
 
 export default function Team() {
     const [teamMembers, setTeamMembers] = useState([]);
@@ -71,17 +72,18 @@ export default function Team() {
     }
 
     return (
-        <div className="space-y-8">
-            <header className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Team Members</h1>
-                    <p className="text-slate-400 font-medium">管理和查看团队成员</p>
-                </div>
-                <button className="btn-primary">
-                    <Plus className="w-4 h-4" />
-                    <span>Invite Member</span>
-                </button>
-            </header>
+        <PageContainer>
+            <div className="space-y-8 w-full">
+                <header className="flex items-center justify-between w-full">
+                    <div>
+                        <h1 className="text-3xl font-bold text-white mb-2">Team Members</h1>
+                        <p className="text-slate-400 font-medium">管理和查看团队成员</p>
+                    </div>
+                    <button className="btn-primary">
+                        <Plus className="w-4 h-4" />
+                        <span>Invite Member</span>
+                    </button>
+                </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-3 glass-card p-6 rounded-3xl">
@@ -162,6 +164,7 @@ export default function Team() {
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+        </PageContainer>
     );
 }

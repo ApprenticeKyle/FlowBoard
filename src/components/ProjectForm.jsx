@@ -26,34 +26,47 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    // 当表单处于编辑模式且打开时，获取最新的项目数据
+    // 当表单打开时，重置或加载数据
     useEffect(() => {
-        if (isOpen && safeInitialData.id) {
-            const fetchProjectData = async () => {
-                setLoading(true);
-                try {
-                    // 调用API获取最新的项目数据
-                    const projectData = await api.get(`/projects/${safeInitialData.id}`);
-                    // 确保projectData是一个对象
-                    const safeProjectData = projectData || {};
-                    // 将deadline转换为Date对象
-                    const deadlineDate = safeProjectData.deadline 
-                        ? new Date(safeProjectData.deadline)
-                        : new Date();
-                    // 更新表单数据
-                    setFormData({
-                        ...safeProjectData,
-                        deadline: deadlineDate
-                    });
-                } catch (error) {
-                    console.error('Failed to fetch project data:', error);
-                    // 如果获取失败，继续使用initialData
-                } finally {
-                    setLoading(false);
-                }
-            };
+        if (isOpen) {
+            if (safeInitialData.id) {
+                // 编辑模式：获取最新项目数据
+                const fetchProjectData = async () => {
+                    setLoading(true);
+                    try {
+                        // 调用API获取最新的项目数据
+                        const projectData = await api.get(`/projects/${safeInitialData.id}`);
+                        // 确保projectData是一个对象
+                        const safeProjectData = projectData || {};
+                        // 将deadline转换为Date对象
+                        const deadlineDate = safeProjectData.deadline 
+                            ? new Date(safeProjectData.deadline)
+                            : new Date();
+                        // 更新表单数据
+                        setFormData({
+                            ...safeProjectData,
+                            deadline: deadlineDate
+                        });
+                    } catch (error) {
+                        console.error('Failed to fetch project data:', error);
+                        // 如果获取失败，继续使用initialData
+                    } finally {
+                        setLoading(false);
+                    }
+                };
 
-            fetchProjectData();
+                fetchProjectData();
+            } else {
+                // 创建模式：重置表单数据
+                setFormData({
+                    name: '',
+                    description: '',
+                    status: 'planning',
+                    deadline: new Date()
+                });
+            }
+            // 重置错误状态
+            setErrors({});
         }
     }, [isOpen, safeInitialData.id]);
 

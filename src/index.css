@@ -26,9 +26,15 @@
 
 body {
     margin: 0;
-    display: flex;
+    padding: 0;
     min-width: 320px;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#root {
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Glassmorphism utility */
@@ -44,6 +50,8 @@ body {
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Custom Scrollbar */
@@ -66,7 +74,7 @@ body {
 }
 
 @utility nav-aside {
-    @apply fixed left-0 top-0 h-screen w-64 glass border-r border-white/5 flex flex-col z-50;
+    @apply fixed left-0 top-0 h-screen w-64 glass border-r border-white/5 flex flex-col z-50 overflow-y-auto;
 }
 
 @utility nav-item {
@@ -78,7 +86,7 @@ body {
 }
 
 @utility topbar-header {
-    @apply h-20 glass border-b border-white/5 flex items-center justify-between sticky top-0 z-40;
+    @apply h-20 glass border-b border-white/5 flex items-center justify-between flex-shrink-0 z-40;
 }
 
 @utility input-search {
@@ -146,19 +154,18 @@ body {
 }
 
 @utility layout-root {
-    @apply flex bg-[#0b0f1a] min-h-screen w-full selection:bg-primary-500/30;
+    @apply flex bg-[#0b0f1a] min-h-screen w-full h-screen overflow-hidden selection:bg-primary-500/30;
 }
 
 @utility layout-content {
-    @apply flex-1 ml-64 flex flex-col min-w-0;
+    @apply flex-1 ml-64 flex flex-col min-w-0 h-full overflow-hidden;
 }
 
 @utility layout-main {
-    @apply flex-1 p-10 overflow-y-auto;
-    max-width: 1600px;
-    margin: 0 auto;
+    @apply flex-1 p-10 overflow-y-auto overflow-x-hidden;
     width: 100%;
     box-sizing: border-box;
+    height: 0; /* 让flex-1生效 */
 }
 
 /* Projects Page Styles */
@@ -174,6 +181,8 @@ body {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 0.75rem;
+    table-layout: fixed;
+    min-width: 100%;
 }
 
 .projects-table th,
@@ -181,6 +190,11 @@ body {
     padding: 1rem;
     text-align: left;
     vertical-align: top;
+}
+
+.projects-table td[colspan] {
+    width: 100%;
+    display: table-cell;
 }
 
 .projects-table th {
@@ -235,6 +249,12 @@ body {
     color: rgba(255, 255, 255, 0.6);
     margin-bottom: 0.5rem;
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
 }
 
 .projects-table .project-meta {
@@ -374,4 +394,16 @@ body {
 
 @utility stats-grid {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+}
+
+/* 下拉菜单动画 */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

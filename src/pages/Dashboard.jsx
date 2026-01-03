@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Clock, CheckCircle2, AlertCircle, BarChart3, TrendingUp, Users, Calendar, FileText, Bell, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { PageContainer } from '@shared/components';
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -57,11 +58,12 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="space-y-10">
-            <header className="max-w-[1600px] w-full mx-auto">
-                <h1 className="dashboard-header-title">{t('dashboard.welcome')}</h1>
-                <p className="dashboard-header-desc">{t('dashboard.subtitle')}</p>
-            </header>
+        <PageContainer>
+            <div className="space-y-10 w-full">
+                <header className="w-full">
+                    <h1 className="dashboard-header-title">{t('dashboard.welcome')}</h1>
+                    <p className="dashboard-header-desc">{t('dashboard.subtitle')}</p>
+                </header>
 
             {/* 统计卡片 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -198,6 +200,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+        </PageContainer>
     );
 }

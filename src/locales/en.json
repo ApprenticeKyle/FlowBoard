@@ -39,6 +39,29 @@
       "title": "No projects found",
       "subtitle": "Looks like there are no projects matching your filter criteria."
     },
+    "updateSuccess": "Project updated successfully",
+    "updateError": "Failed to update project",
+    "deleteSuccess": "Project deleted successfully",
+    "deleteError": "Failed to delete project",
+    "deleteConfirmTitle": "Delete Project",
+    "deleteConfirmMessage": "Are you sure you want to delete this project? This action cannot be undone.",
+    "createSuccess": "Project created successfully",
+    "createError": "Failed to create project",
+    "fetchError": "Failed to fetch project details",
+    "notFound": "Project not found",
+    "noDescription": "No description",
+    "noDeadline": "Not set",
+    "detail": {
+      "subtitle": "View project details",
+      "description": "Description",
+      "statistics": "Statistics",
+      "info": "Information",
+      "members": "Members",
+      "progress": "Progress",
+      "status": "Status",
+      "deadline": "Deadline",
+      "createdAt": "Created At"
+    },
     "form": {
       "createTitle": "Create New Project",
       "editTitle": "Edit Project",
@@ -105,6 +128,12 @@
     "addAttachment": "Add Attachment",
     "addComment": "Add a comment..."
   },
+  "confirmDialog": {
+    "title": "Confirm Action",
+    "message": "Are you sure you want to perform this action?",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
   "common": {
     "dashboard": "Dashboard",
     "projects": "Projects",
@@ -116,6 +145,11 @@
     "signOut": "Sign Out",
     "search": "Search tasks, docs, or people...",
     "newTask": "New Task",
+    "back": "Back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "backToProjects": "Back to Projects",
     "priority": {
       "high": "High",
       "medium": "Medium",

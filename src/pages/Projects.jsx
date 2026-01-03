@@ -1,126 +1,42 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Plus, Search, MoreHorizontal, Edit, Trash2, Users, Calendar, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Select } from '@headlessui/react';
 import ProjectForm from '../components/ProjectForm';
-import { api } from '../utils/api';
+import Toast from '../components/Toast';
+import ConfirmDialog from '../components/ConfirmDialog';
+import { useProjectStore } from '../store/projectStore';
 
 export default function Projects() {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const [editingProject, setEditingProject] = useState(null);
-    const [filterStatus, setFilterStatus] = useState('all'); // 添加筛选状态
     const { t } = useTranslation();
+    
+    // 从store获取状态和方法
+    const {
+        projects,
+        loading,
+        isFormOpen,
+        editingProject,
+        filterStatus,
+        toastVisible,
+        toastMessage,
+        toastType,
+        confirmDialogOpen,
+        fetchProjects,
+        openCreateForm,
+        openEditForm,
+        submitForm,
+        closeToast,
+        openDeleteConfirm,
+        closeDeleteConfirm,
+        confirmDelete,
+        setFilterStatus
+    } = useProjectStore();
 
+    // 组件挂载时加载项目数据
     useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                // 直接请求后端API获取项目列表
-                const data = await api.get('/projects');
-                // 检查后端返回的数据格式，可能是直接的数组或包装在data属性中
-                const projectsData = Array.isArray(data) ? data : (data.data || []);
-                // 转换后端返回的数据格式，添加前端需要的字段
-                const formattedProjects = projectsData.map(project => ({
-                    ...project,
-                    status: project.status || 'planning',
-                    deadline: project.deadline || new Date().toISOString().split('T')[0],
-                    members: project.members || 0,
-                    progress: project.progress || 0
-                }));
-                setProjects(formattedProjects);
-            } catch (error) {
-                console.error('Failed to fetch projects:', error);
-                // API请求失败时显示空列表
-                setProjects([]);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchProjects();
-    }, []);
-
-    const handleCreateProject = async (projectData) => {
-        try {
-            // 调用后端API创建项目，不再传递owner_id字段
-            const newProject = await api.post('/projects', projectData);
-            // 转换后端返回的数据格式，添加前端需要的字段
-            const formattedProject = {
-                ...newProject.data,
-                status: newProject.data.status || 'planning',
-                deadline: newProject.data.deadline || new Date().toISOString().split('T')[0],
-                members: newProject.data.members || 0,
-                progress: newProject.data.progress || 0
-            };
-            setProjects(prev => [...prev, formattedProject]);
-        } catch (error) {
-            console.error('Failed to create project:', error);
-            // 发生错误时使用本地模拟数据
-            const mockNewProject = {
-                id: projects.length + 1,
-                ...projectData,
-                members: 0,
-                progress: 0
-            };
-            setProjects(prev => [...prev, mockNewProject]);
-        }
-    };
-
-    const handleUpdateProject = async (projectData) => {
-        try {
-            // 调用后端API更新项目，不再传递owner_id字段，使用PUT方法
-            const updatedProject = await api.put(`/projects/${projectData.id}`, projectData);
-            // 转换后端返回的数据格式
-            const formattedProject = {
-                ...updatedProject.data,
-                status: updatedProject.data.status || 'planning',
-                deadline: updatedProject.data.deadline || new Date().toISOString().split('T')[0],
-                members: updatedProject.data.members || 0,
-                progress: updatedProject.data.progress || 0
-            };
-            setProjects(prev => prev.map(project => 
-                project.id === projectData.id ? formattedProject : project
-            ));
-        } catch (error) {
-            console.error('Failed to update project:', error);
-            // 发生错误时使用本地更新
-            setProjects(prev => prev.map(project => 
-                project.id === projectData.id ? projectData : project
-            ));
-        }
-    };
-
-    const handleDeleteProject = async (projectId) => {
-        try {
-            // 调用后端API删除项目
-            await api.post(`/projects/${projectId}/delete`);
-            // 更新本地状态
-            setProjects(prev => prev.filter(project => project.id !== projectId));
-        } catch (error) {
-            console.error('Failed to delete project:', error);
-            // 发生错误时使用本地删除
-            setProjects(prev => prev.filter(project => project.id !== projectId));
-        }
-    };
-
-    const openCreateForm = () => {
-        setEditingProject(null);
-        setIsFormOpen(true);
-    };
-
-    const openEditForm = (project) => {
-        setEditingProject(project);
-        setIsFormOpen(true);
-    };
-
-    const handleSubmit = (projectData) => {
-        if (projectData.id) {
-            handleUpdateProject(projectData);
-        } else {
-            handleCreateProject(projectData);
-        }
-    };
+    }, [fetchProjects]);
+    
 
     if (loading) {
         return (
@@ -160,16 +76,20 @@ export default function Projects() {
                             </div>
                         </div>
                         <div className="relative ml-4">
-                            <Select
+                            <select
                                 value={filterStatus}
-                                onChange={(value) => setFilterStatus(value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setFilterStatus(value);
+                                    fetchProjects(value);
+                                }}
                                 className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-2 pr-10 text-sm text-slate-300 outline-none cursor-pointer hover:bg-white/10 transition-colors"
                             >
                                 <option value="all">{t('projects.allProjects')}</option>
                                 <option value="active">{t('projects.status.active')}</option>
                                 <option value="planning">{t('projects.status.planning')}</option>
                                 <option value="completed">{t('projects.status.completed')}</option>
-                            </Select>
+                            </select>
                         </div>
                     </div>
 
@@ -271,7 +191,7 @@ export default function Projects() {
                                                     </button>
                                                     <button 
                                                         className="action-btn"
-                                                        onClick={() => handleDeleteProject(project.id)}
+                                                        onClick={() => openDeleteConfirm(project.id)}
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
@@ -292,9 +212,26 @@ export default function Projects() {
             {/* Project Form Modal */}
             <ProjectForm
                 isOpen={isFormOpen}
-                onClose={() => setIsFormOpen(false)}
-                onSubmit={handleSubmit}
+                onClose={() => useProjectStore.getState().closeForm()}
+                onSubmit={submitForm}
                 initialData={editingProject}
+            />
+
+            {/* Toast Component */}
+            <Toast
+                isVisible={toastVisible}
+                message={toastMessage}
+                type={toastType}
+                onClose={closeToast}
+            />
+
+            {/* Confirm Dialog Component */}
+            <ConfirmDialog
+                isOpen={confirmDialogOpen}
+                title={t('projects.deleteConfirmTitle')}
+                message={t('projects.deleteConfirmMessage')}
+                onConfirm={confirmDelete}
+                onCancel={closeDeleteConfirm}
             />
         </div>
     );

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, MoreHorizontal } from 'lucide-react';
 import BoardCard from '../components/BoardCard';
 import { api } from '../utils/api';
+import { PageContainer } from '@shared/components';
 
 export default function KanbanBoard() {
     const [project, setProject] = useState(null);
@@ -48,9 +49,9 @@ export default function KanbanBoard() {
     ];
 
     return (
-        <div className="h-full flex flex-col space-y-8 font-inter">
-            {/* 保持header居中对齐 */}
-            <header className="max-w-[1600px] w-full mx-auto px-10">
+        <PageContainer className="h-full">
+            <div className="h-full flex flex-col space-y-8 font-inter w-full">
+                <header className="w-full">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold text-white mb-2">{project?.name || 'Project Board'}</h1>
@@ -108,6 +109,7 @@ export default function KanbanBoard() {
                     </button>
                 </div>
             </div>
-        </div>
+            </div>
+        </PageContainer>
     );
 }

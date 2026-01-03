@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Search, MoreHorizontal, Send, Paperclip, UserPlus, Bell, Settings, Smile, FileText, Image, Calendar, Clock, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { PageContainer } from '@shared/components';
 
 export default function Chat() {
     const [channels, setChannels] = useState([]);
@@ -69,8 +70,9 @@ export default function Chat() {
     }
 
     return (
-        <div className="h-full flex flex-col font-inter">
-            <div className="grid grid-cols-12 h-full gap-0">
+        <PageContainer className="h-full w-full">
+            <div className="h-full flex flex-col font-inter">
+                <div className="grid grid-cols-12 h-full gap-0">
                 {/* 左侧频道列表 */}
                 <div className="col-span-3 border-r border-white/5 flex flex-col">
                     <div className="p-6 border-b border-white/5">
@@ -262,7 +264,8 @@ export default function Chat() {
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
-        </div>
+        </PageContainer>
     );
 }

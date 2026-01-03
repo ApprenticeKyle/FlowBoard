@@ -39,6 +39,29 @@
       "title": "没有找到项目",
       "subtitle": "看起来没有匹配筛选条件的项目。"
     },
+    "updateSuccess": "项目更新成功",
+    "updateError": "项目更新失败",
+    "deleteSuccess": "项目删除成功",
+    "deleteError": "项目删除失败",
+    "deleteConfirmTitle": "删除项目",
+    "deleteConfirmMessage": "您确定要删除这个项目吗？此操作无法撤销。",
+    "createSuccess": "项目创建成功",
+    "createError": "项目创建失败",
+    "fetchError": "获取项目详情失败",
+    "notFound": "项目不存在",
+    "noDescription": "暂无描述",
+    "noDeadline": "未设置",
+    "detail": {
+      "subtitle": "查看项目详细信息",
+      "description": "项目描述",
+      "statistics": "项目统计",
+      "info": "项目信息",
+      "members": "成员数",
+      "progress": "进度",
+      "status": "状态",
+      "deadline": "截止日期",
+      "createdAt": "创建时间"
+    },
     "form": {
       "createTitle": "创建新项目",
       "editTitle": "编辑项目",
@@ -105,6 +128,12 @@
     "addAttachment": "添加附件",
     "addComment": "添加评论..."
   },
+  "confirmDialog": {
+    "title": "确认操作",
+    "message": "您确定要执行此操作吗？",
+    "confirm": "确认",
+    "cancel": "取消"
+  },
   "common": {
     "dashboard": "仪表盘",
     "projects": "项目",
@@ -116,6 +145,11 @@
     "signOut": "退出登录",
     "search": "搜索任务、文档或人员...",
     "newTask": "新建任务",
+    "back": "返回",
+    "edit": "编辑",
+    "delete": "删除",
+    "loading": "加载中...",
+    "backToProjects": "返回项目列表",
     "priority": {
       "high": "高",
       "medium": "中",
