@@ -17,8 +17,9 @@ export class ApiError extends Error {
 
 // 统一的请求处理函数
 const request = async (url, options = {}) => {
-  // 设置默认headers
-  const defaultHeaders = {
+  // 设置默认headers（如果是 FormData，不设置 Content-Type）
+  const isFormData = options.body instanceof FormData;
+  const defaultHeaders = isFormData ? {} : {
     'Content-Type': 'application/json'
   };
   
@@ -139,7 +140,7 @@ export const apiClient = {
     });
   },
   
-  post: async (url, data) => {
+  post: async (url, data, options = {}) => {
     // 如果是登录请求，直接处理
     if (url === '/auth/login') {
       const result = await request(url, {
@@ -152,10 +153,23 @@ export const apiClient = {
     
     // 其他POST请求，确保已登录
     await loginOnce();
-    return request(url, {
+    
+    // 如果是 FormData，不设置 Content-Type，让浏览器自动设置
+    const isFormData = data instanceof FormData;
+    const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(data)
-    });
+      body: isFormData ? data : JSON.stringify(data),
+      ...options
+    };
+    
+    // 如果不是 FormData，设置默认 headers
+    if (!isFormData && !options.headers) {
+      requestOptions.headers = {
+        'Content-Type': 'application/json'
+      };
+    }
+    
+    return request(url, requestOptions);
   },
   
   put: async (url, data) => {

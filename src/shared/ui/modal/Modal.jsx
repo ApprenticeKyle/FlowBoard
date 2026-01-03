@@ -17,6 +17,7 @@ export const Modal = ({
     md: 'max-w-lg',
     lg: 'max-w-2xl',
     xl: 'max-w-4xl',
+    '2xl': 'max-w-5xl',
     full: 'max-w-full mx-4',
   };
 
@@ -40,7 +41,7 @@ export const Modal = ({
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="flex min-h-full items-start justify-center p-4 pt-8">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -54,8 +55,8 @@ export const Modal = ({
                 className={`w-full ${sizes[size]} transform overflow-hidden rounded-3xl glass-card border border-white/10 shadow-2xl transition-all`}
               >
                 {title && (
-                  <div className="flex items-center justify-between p-6 border-b border-white/5">
-                    <Dialog.Title className="text-xl font-bold text-white">
+                  <div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
+                    <Dialog.Title className="text-lg font-bold text-white">
                       {title}
                     </Dialog.Title>
                     <Button
@@ -67,11 +68,11 @@ export const Modal = ({
                     />
                   </div>
                 )}
-                <div className="p-6">
+                <div className="px-6 py-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
                   {children}
                 </div>
                 {footer && (
-                  <div className="flex items-center justify-end gap-3 p-6 border-t border-white/5">
+                  <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-white/5">
                     {footer}
                   </div>
                 )}

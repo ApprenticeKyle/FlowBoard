@@ -140,8 +140,9 @@
       "status": "Status",
       "priority": "Priority",
       "startDate": "Start Date",
+      "startDatePlaceholder": "Select start date (optional)",
       "deadline": "Deadline",
-      "deadlinePlaceholder": "Select date",
+      "deadlinePlaceholder": "Select deadline",
       "coverImage": "Cover Image",
       "coverImagePlaceholder": "Enter image URL",
       "tags": "Tags",
@@ -162,6 +163,22 @@
         "description": "Project description is required",
         "deadline": "Deadline is required"
       }
+    },
+    "imageUpload": {
+      "upload": "Upload Image",
+      "url": "Enter URL",
+      "dragOrClick": "Drag and drop an image here or click to upload",
+      "supportedFormats": "Supports JPG, PNG, GIF, etc.",
+      "maxSize": "Max {{size}}MB",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Image uploaded successfully",
+      "uploadError": "Image upload failed, please try again",
+      "invalidType": "Please select an image file",
+      "fileTooLarge": "File size cannot exceed {{size}}MB",
+      "invalidUrl": "Invalid image URL",
+      "replace": "Replace Image",
+      "remove": "Remove",
+      "urlPlaceholder": "Enter image URL address"
     }
   },
   "board": {

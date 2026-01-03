@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Modal, Input, Select, Button } from '@shared/ui';
+import { Modal, Input, Select, Button, DatePicker, ImageUpload } from '@shared/ui';
 import { apiClient } from '@shared/utils/apiClient';
 import { PROJECT_PRIORITY } from '@shared/constants';
 import { useConfirmStore } from '@shared/store/confirmStore';
@@ -206,43 +204,46 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
       isOpen={isOpen}
       onClose={onClose}
       title={safeInitialData.id ? t('projects.form.editTitle') : t('projects.form.createTitle')}
-      size="lg"
+      size="2xl"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            {t('projects.form.name')}
-          </label>
-          <Input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder={t('projects.form.namePlaceholder')}
-            error={errors.name}
-          />
+      <form onSubmit={handleSubmit} className="space-y-3">
+        {/* 第一行：项目名称和描述 */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              {t('projects.form.name')}
+            </label>
+            <Input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder={t('projects.form.namePlaceholder')}
+              error={errors.name}
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              {t('projects.form.description')}
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={2}
+              className={`w-full bg-white/5 border ${errors.description ? 'border-rose-500' : 'border-white/5'} rounded-xl px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all resize-none text-sm`}
+              placeholder={t('projects.form.descriptionPlaceholder')}
+            />
+            {errors.description && <p className="text-rose-400 text-xs mt-1">{errors.description}</p>}
+          </div>
         </div>
 
+        {/* 第二行：关联团队 */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            {t('projects.form.description')}
-          </label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows={4}
-            className={`w-full bg-white/5 border ${errors.description ? 'border-rose-500' : 'border-white/5'} rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all resize-none`}
-            placeholder={t('projects.form.descriptionPlaceholder')}
-          />
-          {errors.description && <p className="text-rose-400 text-xs mt-1">{errors.description}</p>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-3">
+          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
             {t('projects.form.teams')}
           </label>
-          <div className="space-y-2 max-h-56 overflow-y-auto pr-2">
+          <div className="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto pr-2">
             {loadingTeams ? (
               <div className="py-8 text-center">
                 <div className="inline-block animate-spin rounded-full h-6 w-6 border-2 border-primary-500 border-t-transparent"></div>
@@ -258,7 +259,7 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
                 return (
                   <label
                     key={team.id}
-                    className={`group relative flex items-start gap-4 p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                    className={`group relative flex items-start gap-2 p-2 rounded-lg border-2 transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-primary-500/10 border-primary-500/50 shadow-lg shadow-primary-500/10'
                         : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
@@ -341,9 +342,10 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        {/* 第三行：状态、优先级、开始日期、截止日期 */}
+        <div className="grid grid-cols-4 gap-3">
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               {t('projects.form.status')}
             </label>
             <Select
@@ -354,7 +356,7 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               {t('projects.form.priority')}
             </label>
             <Select
@@ -363,102 +365,93 @@ const ProjectForm = ({ isOpen, onClose, onSubmit, initialData = {} }) => {
               options={priorityOptions}
             />
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               {t('projects.form.startDate')}
             </label>
             <DatePicker
               selected={formData.startDate}
               onChange={(date) => setFormData(prev => ({ ...prev, startDate: date }))}
-              className={`w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all`}
-              dateFormat="yyyy-MM-dd"
+              placeholder={t('projects.form.startDatePlaceholder')}
               isClearable
-              placeholderText="选择开始日期（可选）"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               {t('projects.form.deadline')}
             </label>
             <DatePicker
               selected={formData.deadline}
               onChange={(date) => setFormData(prev => ({ ...prev, deadline: date }))}
-              className={`w-full bg-white/5 border ${errors.deadline ? 'border-rose-500' : 'border-white/5'} rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all`}
-              dateFormat="yyyy-MM-dd"
+              placeholder={t('projects.form.deadlinePlaceholder')}
               minDate={formData.startDate || new Date()}
+              error={errors.deadline}
             />
             {errors.deadline && <p className="text-rose-400 text-xs mt-1">{errors.deadline}</p>}
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            {t('projects.form.coverImage')}
-          </label>
-          <Input
-            type="url"
-            name="coverImage"
-            value={formData.coverImage}
-            onChange={handleChange}
-            placeholder={t('projects.form.coverImagePlaceholder')}
-          />
-          {formData.coverImage && (
-            <div className="mt-2">
-              <img src={formData.coverImage} alt="Cover preview" className="w-32 h-32 rounded-lg object-cover" />
-            </div>
-          )}
-        </div>
+        {/* 第四行：封面图片和标签 */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              {t('projects.form.coverImage')}
+            </label>
+            <ImageUpload
+              value={formData.coverImage}
+              onChange={(url) => setFormData(prev => ({ ...prev, coverImage: url }))}
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            {t('projects.form.tags')}
-          </label>
-          <div className="flex flex-wrap gap-2 mb-2">
-            {formData.tags.map((tag, idx) => (
-              <span
-                key={idx}
-                className="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm flex items-center gap-2"
-              >
-                {tag}
-                <button
-                  type="button"
-                  onClick={() => {
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              {t('projects.form.tags')}
+            </label>
+            <div className="flex flex-wrap gap-1.5 mb-1.5">
+              {formData.tags.map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="px-2 py-0.5 bg-primary-500/20 text-primary-300 rounded-full text-xs flex items-center gap-1"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData(prev => ({
+                        ...prev,
+                        tags: prev.tags.filter((_, i) => i !== idx)
+                      }));
+                    }}
+                    className="hover:text-primary-400"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+            <Input
+              type="text"
+              placeholder={t('projects.form.tagsPlaceholder')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && e.target.value.trim()) {
+                  e.preventDefault();
+                  const newTag = e.target.value.trim();
+                  if (!formData.tags.includes(newTag)) {
                     setFormData(prev => ({
                       ...prev,
-                      tags: prev.tags.filter((_, i) => i !== idx)
+                      tags: [...prev.tags, newTag]
                     }));
-                  }}
-                  className="hover:text-primary-400"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-          <Input
-            type="text"
-            placeholder={t('projects.form.tagsPlaceholder')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.target.value.trim()) {
-                e.preventDefault();
-                const newTag = e.target.value.trim();
-                if (!formData.tags.includes(newTag)) {
-                  setFormData(prev => ({
-                    ...prev,
-                    tags: [...prev.tags, newTag]
-                  }));
+                  }
+                  e.target.value = '';
                 }
-                e.target.value = '';
-              }
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
 
-        <div className="flex items-center gap-4 justify-end pt-4 border-t border-white/5">
+        <div className="flex items-center gap-3 justify-end pt-2 border-t border-white/5 mt-3">
           <Button variant="ghost" type="button" onClick={onClose}>
             {t('projects.form.cancel')}
           </Button>

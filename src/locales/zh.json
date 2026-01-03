@@ -140,8 +140,9 @@
       "status": "状态",
       "priority": "优先级",
       "startDate": "开始日期",
+      "startDatePlaceholder": "选择开始日期（可选）",
       "deadline": "截止日期",
-      "deadlinePlaceholder": "选择日期",
+      "deadlinePlaceholder": "选择截止日期",
       "coverImage": "封面图片",
       "coverImagePlaceholder": "输入图片URL",
       "tags": "标签",
@@ -162,6 +163,22 @@
         "description": "项目描述不能为空",
         "deadline": "截止日期不能为空"
       }
+    },
+    "imageUpload": {
+      "upload": "上传图片",
+      "url": "输入URL",
+      "dragOrClick": "拖拽图片到此处或点击上传",
+      "supportedFormats": "支持 JPG、PNG、GIF 等格式",
+      "maxSize": "最大 {{size}}MB",
+      "uploading": "上传中...",
+      "uploadSuccess": "图片上传成功",
+      "uploadError": "图片上传失败，请重试",
+      "invalidType": "请选择图片文件",
+      "fileTooLarge": "文件大小不能超过 {{size}}MB",
+      "invalidUrl": "无效的图片URL",
+      "replace": "更换图片",
+      "remove": "移除",
+      "urlPlaceholder": "输入图片URL地址"
     }
   },
   "board": {
