@@ -32,6 +32,28 @@ export const PROJECT_STATUS_OPTIONS = [
   { value: PROJECT_STATUS.COMPLETED, label: '已完成' },
 ];
 
+// 项目优先级
+export const PROJECT_PRIORITY = {
+  HIGH: 'HIGH',
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW',
+};
+
+// 优先级选项
+export const PROJECT_PRIORITY_OPTIONS = [
+  { value: PROJECT_PRIORITY.HIGH, label: '高', color: '#EF4444' },
+  { value: PROJECT_PRIORITY.MEDIUM, label: '中', color: '#F59E0B' },
+  { value: PROJECT_PRIORITY.LOW, label: '低', color: '#10B981' },
+];
+
+// 排序选项
+export const PROJECT_SORT_OPTIONS = [
+  { value: 'createdAt', label: '创建时间' },
+  { value: 'updatedAt', label: '更新时间' },
+  { value: 'name', label: '名称' },
+  { value: 'progress', label: '进度' },
+];
+
 // 路由路径
 export const ROUTES = {
   DASHBOARD: '/dashboard',

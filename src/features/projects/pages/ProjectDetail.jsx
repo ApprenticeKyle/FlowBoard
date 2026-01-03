@@ -8,12 +8,14 @@ import { useProjectStore } from '../store/projectStore';
 import { useToastStore } from '@shared/store/toastStore';
 import { useConfirmStore } from '@shared/store/confirmStore';
 import { apiClient } from '@shared/utils/apiClient';
+import ProjectMembers from '../components/ProjectMembers';
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [project, setProject] = useState(null);
+  const [projectMembers, setProjectMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const { openEditForm, deleteProject } = useProjectStore();
   const { showSuccess, showError } = useToastStore();
@@ -25,6 +27,9 @@ export default function ProjectDetail() {
         setLoading(true);
         const data = await apiClient.get(`/projects/${id}`);
         setProject(data);
+        
+        // 获取项目成员（从API返回的数据中获取）
+        setProjectMembers(data.projectMembers || []);
       } catch (error) {
         console.error('Failed to fetch project detail:', error);
         showError(t('projects.fetchError'));
@@ -157,7 +162,7 @@ export default function ProjectDetail() {
                     </div>
                     <div>
                       <p className="text-slate-400 text-sm">{t('projects.detail.members')}</p>
-                      <p className="text-white text-2xl font-bold">{project.members || 0}</p>
+                      <p className="text-white text-2xl font-bold">{projectMembers.length || 0}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -172,6 +177,14 @@ export default function ProjectDetail() {
                 </div>
               </div>
             </Card>
+
+            {/* 项目成员 */}
+            <ProjectMembers
+              projectId={id}
+              members={projectMembers}
+              teams={project.teams || []}
+              onMembersChange={setProjectMembers}
+            />
           </div>
 
           {/* 侧边栏信息 */}
